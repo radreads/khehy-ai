@@ -124,10 +124,9 @@ body {
     }
 
     .social-icons {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        display: flex;
+        justify-content: center;
         gap: 2rem;
-        justify-items: center;
     }
 
     .social-icons a {
