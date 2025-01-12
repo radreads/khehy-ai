@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Khe Hy</title>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/nav') %>
+
+    <main class="container">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1>I'm on my AI learning journey</h1>
+                <p class="subtitle">I'm dusting off my CS degree and learning how to code with Nat Eliason's <a href="https://build-your-own-life-coach.circle.so/checkout/access?affiliate_code=86e5a8">Build Your Own Apps</a> course.</p>
+                
+                <form class="email-signup" id="subscribe-form">
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <button type="submit">Send</button>
+                </form>
+                <div id="subscription-message"></div>
+            </div>
+            <div class="hero-image">
+                <img src="/images/dj-image.jpg" alt="DJ performing" class="featured-image">
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        document.getElementById('subscribe-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const messageDiv = document.getElementById('subscription-message');
+            const email = e.target.email.value;
+            
+            try {
+                const response = await fetch('/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    messageDiv.innerHTML = '<p style="color: green;">Thanks for subscribing!</p>';
+                    e.target.reset();
+                } else {
+                    messageDiv.innerHTML = '<p style="color: red;">Subscription failed. Please try again.</p>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<p style="color: red;">An error occurred. Please try again later.</p>';
+            }
+        });
+    </script>
+</body>
+</html> 
