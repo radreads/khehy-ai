@@ -11,11 +11,12 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Set EJS as templating engine
+// Set EJS as templating engine and views directory
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files from the public directory
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Blog functionality
 async function getBlogPosts() {
@@ -49,15 +50,30 @@ async function getBlogPosts() {
 
 // Routes
 app.get('/', (req, res) => {
-    res.render('index');
+    try {
+        res.render('index');
+    } catch (error) {
+        console.error('Error rendering index:', error);
+        res.status(500).send('Error rendering page');
+    }
 });
 
 app.get('/about', (req, res) => {
-    res.render('about');
+    try {
+        res.render('about');
+    } catch (error) {
+        console.error('Error rendering about:', error);
+        res.status(500).send('Error rendering page');
+    }
 });
 
 app.get('/contact', (req, res) => {
-    res.render('contact');
+    try {
+        res.render('contact');
+    } catch (error) {
+        console.error('Error rendering contact:', error);
+        res.status(500).send('Error rendering page');
+    }
 });
 
 // Blog routes
@@ -129,6 +145,23 @@ app.post('/subscribe', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-}); 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Global error handler:', err);
+    res.status(500).send('Something broke!');
+});
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).send('Page not found');
+});
+
+// Only listen when not in Vercel environment
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => {
+        console.log(`Server is running at http://localhost:${port}`);
+    });
+}
+
+// Export for Vercel
+module.exports = app; 
