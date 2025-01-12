@@ -298,10 +298,12 @@ body {
 }
 
 footer {
+    background-color: #242728;
+    color: white;
+    padding: 1rem 4rem;
+    text-align: center;
+    font-size: 0.67rem;
     margin-top: auto;
-    padding: 2rem 4rem;
-    background-color: transparent;
-    color: #242728;
 }
 
 /* Blog Styles */
