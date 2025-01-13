@@ -1,4 +1,22 @@
 <%- include('./partials/head.ejs') %>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "<%= post.title %>",
+    "author": {
+        "@type": "Person",
+        "name": "<%= post.author || 'Khe Hy' %>",
+        "url": "https://yoursite.com/about"
+    },
+    "datePublished": "<%= post.date %>",
+    "description": "<%= post.description %>",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://yoursite.com/blog/<%= post.slug %>"
+    }
+}
+</script>
 <%- include('./partials/nav.ejs') %>
 
 <main class="container">
