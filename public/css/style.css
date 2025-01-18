@@ -154,11 +154,13 @@ body {
         flex-direction: column;
         margin-top: 2rem;
         gap: 2rem;
-        text-align: center;
+        text-align: left;
+        align-items: flex-start;
     }
 
     .hero-content {
         max-width: 100%;
+        text-align: left;
     }
 
     .hero-content h1 {
@@ -182,6 +184,14 @@ body {
     .featured-image {
         width: 100%;
         max-width: 500px;
+    }
+
+    .blog-preview, .post-header, .post-content {
+        text-align: left;
+    }
+
+    .post-meta {
+        text-align: left;
     }
 }
 
