@@ -12,7 +12,7 @@ const defaultMetadata = {
 const pageMetadata = {
     home: {
         title: 'Home',
-        description: 'Welcome to Khe Hy\'s digital garden'
+        description: 'Follow Khe Hy\'s AI experiments.'
     },
     about: {
         title: 'About',
