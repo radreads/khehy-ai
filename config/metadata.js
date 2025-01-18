@@ -11,15 +11,15 @@ const defaultMetadata = {
 
 const pageMetadata = {
     home: {
-        title: 'Home',
+        title: 'Hi, I\'m Khe Hy. Follow my AI experiments.',
         description: 'Follow Khe Hy\'s AI experiments.'
     },
     about: {
-        title: 'About',
+        title: 'About Khe Hy',
         description: 'Learn more about Khe Hy'
     },
     contact: {
-        title: 'Contact',
+        title: 'Contact Khe Hy',
         description: 'Get in touch with Khe Hy'
     },
     blog: {
