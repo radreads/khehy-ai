@@ -6,6 +6,7 @@ const matter = require('gray-matter');
 const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 3000;
+const { defaultMetadata, pageMetadata, baseUrl } = require('./config/metadata');
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -50,17 +51,22 @@ async function getBlogPosts() {
 
 // Routes
 app.get('/', (req, res) => {
-    try {
-        res.render('index');
-    } catch (error) {
-        console.error('Error rendering index:', error);
-        res.status(500).send('Error rendering page');
-    }
+    const metadata = {
+        ...defaultMetadata,
+        ...pageMetadata.home,
+        currentUrl: `${baseUrl}/`
+    };
+    res.render('index', { metadata });
 });
 
 app.get('/about', (req, res) => {
     try {
-        res.render('about');
+        const metadata = {
+            ...defaultMetadata,
+            ...pageMetadata.about,
+            currentUrl: `${baseUrl}/about`
+        };
+        res.render('about', { metadata });
     } catch (error) {
         console.error('Error rendering about:', error);
         res.status(500).send('Error rendering page');
@@ -68,19 +74,24 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/contact', (req, res) => {
-    try {
-        res.render('contact');
-    } catch (error) {
-        console.error('Error rendering contact:', error);
-        res.status(500).send('Error rendering page');
-    }
+    const metadata = {
+        ...defaultMetadata,
+        ...pageMetadata.contact,
+        currentUrl: `${baseUrl}/contact`
+    };
+    res.render('contact', { metadata });
 });
 
 // Blog routes
 app.get('/blog', async (req, res) => {
     try {
         const posts = await getBlogPosts();
-        res.render('blog', { posts });
+        const metadata = {
+            ...defaultMetadata,
+            ...pageMetadata.blog,
+            currentUrl: `${baseUrl}/blog`
+        };
+        res.render('blog', { posts, metadata });
     } catch (error) {
         console.error('Error loading blog posts:', error);
         res.status(500).send('Error loading blog posts');
@@ -96,7 +107,17 @@ app.get('/blog/:slug', async (req, res) => {
             return res.status(404).send('Post not found');
         }
         
-        res.render('blog-post', { post });
+        const metadata = {
+            ...defaultMetadata,
+            title: post.title,
+            description: post.description,
+            type: 'article',
+            currentUrl: `${baseUrl}/blog/${post.slug}`,
+            author: post.author || defaultMetadata.author,
+            date: post.date
+        };
+        
+        res.render('blog-post', { post, metadata });
     } catch (error) {
         console.error('Error loading blog post:', error);
         res.status(500).send('Error loading blog post');
